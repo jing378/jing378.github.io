@@ -394,6 +394,17 @@ footer { padding-block: 20px; font-size: .8rem; color: var(--ink-soft); }
   .row.lit { padding: 16px; }
   .hero .links .btn { flex: 1 1 100%; }
 }
+/* Phone hero: name first, photo after the intro, beside its caption */
+@media (max-width: 760px) {
+  .hero .wrap .readout { order: 1; }
+  .hero .wrap h1 { order: 2; }
+  .hero .wrap .lede { order: 3; }
+  .hero .wrap .portrait { order: 4; display: flex; align-items: center; gap: 16px; width: auto; margin-block: 4px; }
+  .hero .wrap .links { order: 5; }
+  .hero .wrap .hint { order: 6; }
+  .portrait img { width: 96px; flex: none; border-radius: 22px; box-shadow: 0 0 0 4px var(--sheet), var(--shadow); }
+  .portrait figcaption { display: block; line-height: 1.6; }
+}
 @media (max-width: 360px) {
   .steps .step { flex: 1 1 40%; }
   .ci .ci-val { font-size: .95rem; }
