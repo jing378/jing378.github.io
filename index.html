@@ -1,0 +1,1009 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Gerald Montederamos, full-stack developer. Laravel, GIS and applied machine learning. Creator of MangroveMap, a drone-to-map system for mangrove conservation in Southern Leyte.">
+<meta property="og:title" content="Gerald Montederamos">
+<meta property="og:description" content="Full-stack developer: Laravel, GIS and applied machine learning.">
+<meta property="og:image" content="https://jing378.github.io/profile.jpg">
+<meta property="og:url" content="https://jing378.github.io/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#1d6a4e">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='8' y='8' width='16' height='16' rx='3' transform='rotate(45 16 16)' fill='%231d6a4e'/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; font-size: 14px; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+</style><title>Gerald Montederamos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: field-survey sheet. Reactive topo hero, a playable drone pipeline as the centrepiece, then compact indexes of work and skills. */
+:root {
+  --ground: #f2f5f1;
+  --sheet: #ffffff;
+  --ink: #15201b;
+  --ink-soft: #4a5a52;
+  --rule: #d3dcd6;
+  --mangrove: #1d6a4e;
+  --tide: #276e8e;
+  --mud: #86663f;
+  --contour: 29,106,78;
+  --chip: #e5eee8;
+  --stage: #0e1512;     /* demo screen: always dark, like a GIS viewport */
+  --stage-ink: #dbe7e0;
+  --stage-soft: #8ea398;
+  --stage-rule: #26342e;
+  --g1: #e2bd3f;  --g2: #47bfe0;  --g3: #e2668a;
+
+  --f-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --f-body: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #0d1411; --sheet: #141d19; --ink: #e2ebe5; --ink-soft: #9db1a6; --rule: #283630;
+    --mangrove: #5cc494; --tide: #6db2d1; --mud: #c9a272; --contour: 92,196,148; --chip: #1c2823;
+    --stage: #080d0b; --stage-rule: #22302a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #0d1411; --sheet: #141d19; --ink: #e2ebe5; --ink-soft: #9db1a6; --rule: #283630;
+  --mangrove: #5cc494; --tide: #6db2d1; --mud: #c9a272; --contour: 92,196,148; --chip: #1c2823;
+  --stage: #080d0b; --stage-rule: #22302a;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+body { background: var(--ground); color: var(--ink); font: 400 1rem/1.6 var(--f-body); -webkit-font-smoothing: antialiased; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--ground); }
+.wrap { max-width: 1120px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+a { color: var(--mangrove); text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--tide); outline-offset: 3px; }
+h1, h2, h3, h4 { font-family: var(--f-display); text-wrap: balance; margin: 0; }
+.label { font: 500 .72rem/1.3 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+button { font: inherit; color: inherit; cursor: pointer; }
+
+/* ---------- Nav ---------- */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: color-mix(in srgb, var(--ground) 86%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--rule); }
+.nav .wrap { display: flex; align-items: center; gap: 16px; height: 56px; }
+.brand { font: 700 1rem/1 var(--f-display); font-variation-settings: "wdth" 115; color: var(--ink); text-decoration: none; margin-right: auto; display: flex; align-items: center; gap: 8px; }
+.brand i { width: 10px; height: 10px; background: var(--mangrove); display: inline-block; transform: rotate(45deg); }
+.nav nav { display: flex; gap: 18px; }
+.nav nav a { color: var(--ink-soft); text-decoration: none; font-size: .9rem; }
+.nav nav a:hover { color: var(--ink); }
+.theme-btn { background: none; border: 1px solid var(--rule); width: 36px; height: 36px; display: grid; place-items: center; }
+.theme-btn svg { width: 18px; height: 18px; stroke: var(--ink); fill: none; stroke-width: 1.6; }
+@media (max-width: 640px) { .nav nav a:not(.keep) { display: none; } }
+
+/* ---------- Hero ---------- */
+.hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--rule); cursor: crosshair; }
+#topo { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.hero .wrap { position: relative; padding-block: clamp(56px, 10vw, 120px) clamp(40px, 7vw, 80px); display: grid; gap: 26px; pointer-events: none; }
+.hero .wrap a, .hero .wrap button { pointer-events: auto; }
+.hero .wrap { grid-template-columns: minmax(0, 1fr) auto; column-gap: clamp(24px, 5vw, 64px); }
+.hero .wrap > :not(.portrait) { grid-column: 1; }
+.portrait { grid-column: 2; grid-row: 1 / span 5; align-self: center; margin: 0; width: clamp(200px, 26vw, 300px); display: grid; gap: 10px; pointer-events: auto; }
+.portrait img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--ink); box-shadow: 10px 10px 0 var(--mangrove); background: #fff; transition: transform .3s ease, box-shadow .3s ease; }
+.portrait:hover img { transform: translate(-4px, -4px); box-shadow: 14px 14px 0 var(--mangrove); }
+@media (max-width: 760px) {
+  .hero .wrap { grid-template-columns: 1fr; }
+  .portrait { grid-column: 1; grid-row: auto; width: 132px; }
+  .portrait img { box-shadow: 6px 6px 0 var(--mangrove); }
+  .portrait figcaption { display: none; }
+}
+.readout { display: flex; flex-wrap: wrap; gap: 6px 18px; font-variant-numeric: tabular-nums; }
+.readout .label b { color: var(--mangrove); font-weight: 500; }
+.hero h1 { font-size: clamp(2.8rem, 9vw, 6rem); line-height: .92; font-weight: 800; font-variation-settings: "wdth" 112; letter-spacing: -.02em; }
+.hero h1 span { display: block; color: var(--mangrove); }
+.hero h1 .ch { display: inline-block; transition: font-variation-settings .35s ease, transform .35s ease; }
+.lede { font-size: clamp(1.05rem, 2.2vw, 1.25rem); max-width: 40rem; margin: 0; }
+.typed { font-family: var(--f-mono); font-size: .95em; color: var(--tide); border-right: 2px solid var(--tide); padding-right: 2px; white-space: nowrap; }
+.links { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--ink); color: var(--ink); text-decoration: none; font: 500 .9rem/1 var(--f-body); background: var(--sheet); }
+.btn.primary { background: var(--mangrove); border-color: var(--mangrove); color: var(--sheet); }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 2px 0 var(--ink); }
+.hint { font: 400 .78rem/1.3 var(--f-mono); color: var(--ink-soft); }
+
+/* ---------- Sections ---------- */
+section { padding-block: clamp(52px, 8vw, 96px); }
+.sec-head { display: grid; gap: 10px; margin-bottom: 28px; max-width: 46rem; }
+.sec-head h2 { font-size: clamp(1.8rem, 4.2vw, 2.7rem); font-weight: 700; line-height: 1.08; }
+.sec-head p { margin: 0; color: var(--ink-soft); }
+
+/* Capstone intro */
+.intro { display: grid; grid-template-columns: 1.25fr 1fr; gap: 40px; }
+.intro > * { min-width: 0; }
+.intro h3 { font-size: clamp(2.2rem, 6vw, 3.6rem); font-weight: 800; font-variation-settings: "wdth" 118; line-height: 1; margin-bottom: 16px; }
+.intro p { margin: 0 0 14px; max-width: 62ch; }
+.stack { display: flex; flex-wrap: wrap; gap: 6px; margin: 18px 0; }
+.chip { font: 500 .75rem/1 var(--f-mono); padding: 6px 8px; background: var(--chip); }
+.facts { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--ink); align-content: start; }
+.fact { padding: 14px 0; border-bottom: 1px solid var(--rule); display: grid; gap: 2px; }
+.fact:nth-child(odd) { padding-right: 12px; }
+.fact b { font: 700 2rem/1 var(--f-display); font-variation-settings: "wdth" 85; font-variant-numeric: tabular-nums; }
+.fact span { font-size: .85rem; color: var(--ink-soft); }
+
+/* ---------- Demo ---------- */
+.demo { background: var(--stage); color: var(--stage-ink); border: 1px solid var(--stage-rule); margin-top: 40px; }
+.demo-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding: 14px clamp(14px, 3vw, 22px); border-bottom: 1px solid var(--stage-rule); }
+.demo-bar .label { color: var(--stage-soft); margin-right: auto; }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--g2); margin-right: 8px; vertical-align: 1px; box-shadow: 0 0 0 0 var(--g2); }
+.demo.running .dot { animation: ping 1.2s infinite; }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(71,191,224,.6); } 100% { box-shadow: 0 0 0 10px rgba(71,191,224,0); } }
+.dbtn { background: transparent; border: 1px solid var(--stage-rule); color: var(--stage-ink); padding: 8px 12px; font: 500 .8rem/1 var(--f-mono); }
+.dbtn:hover { border-color: var(--stage-soft); }
+.dbtn.go { background: var(--stage-ink); color: var(--stage); border-color: var(--stage-ink); }
+.steps { display: grid; grid-template-columns: repeat(6, 1fr); border-bottom: 1px solid var(--stage-rule); }
+.step { background: none; border: 0; border-right: 1px solid var(--stage-rule); padding: 12px 12px 10px; text-align: left; display: grid; gap: 2px; color: var(--stage-soft); position: relative; }
+.step:last-child { border-right: 0; }
+.step b { font: 500 .7rem/1 var(--f-mono); letter-spacing: .06em; }
+.step span { font: 600 .9rem/1.2 var(--f-body); color: inherit; }
+.step::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; background: var(--g2); transform: scaleX(0); transform-origin: left; }
+.step.done { color: var(--stage-ink); }
+.step.active { color: var(--stage-ink); background: rgba(255,255,255,.04); }
+.step.active::after { transform: scaleX(1); transition: transform .3s; }
+.demo-body { display: grid; grid-template-columns: 1.65fr 1fr; }
+.demo-body > * { min-width: 0; }
+.viewport { position: relative; border-right: 1px solid var(--stage-rule); }
+.viewport canvas { display: block; width: 100%; aspect-ratio: 192 / 120; max-width: 100%; }
+#scene { image-rendering: pixelated; }
+#overlay { position: absolute; inset: 0; height: 100%; touch-action: none; }
+.viewport.paint #overlay { cursor: none; }
+.vp-tag { position: absolute; left: 10px; bottom: 10px; font: 500 .68rem/1 var(--f-mono); background: rgba(0,0,0,.6); color: #dbe7e0; padding: 5px 7px; pointer-events: none; }
+.panel { padding: clamp(16px, 3vw, 24px); display: grid; gap: 16px; align-content: start; }
+.panel h4 { font: 700 1.35rem/1.15 var(--f-display); font-variation-settings: "wdth" 105; }
+.panel p { margin: 0; font-size: .92rem; color: var(--stage-ink); opacity: .85; }
+.code { font: 500 .75rem/1.4 var(--f-mono); color: var(--g2); word-break: break-word; }
+.meter { display: grid; gap: 8px; border-top: 1px solid var(--stage-rule); padding-top: 14px; }
+.meter-row { display: grid; grid-template-columns: 7.5rem 1fr 3.2rem; align-items: center; gap: 10px; font-size: .85rem; font-variant-numeric: tabular-nums; }
+.meter-row em { font-style: italic; }
+.meter-row .num { text-align: right; font-family: var(--f-mono); font-size: .8rem; }
+.bar { height: 8px; background: var(--stage-rule); position: relative; overflow: hidden; }
+.bar i { position: absolute; inset: 0 auto 0 0; width: 0; transition: width .35s ease; }
+.cover { display: flex; align-items: baseline; gap: 10px; }
+.cover b { font: 700 2.4rem/1 var(--f-display); font-variation-settings: "wdth" 85; font-variant-numeric: tabular-nums; }
+.cover span { font-size: .82rem; color: var(--stage-soft); }
+.tools { display: flex; gap: 6px; flex-wrap: wrap; }
+.tools .dbtn[aria-pressed="true"] { background: var(--g2); color: #06202a; border-color: var(--g2); }
+.disclaimer { font: 400 .72rem/1.4 var(--f-mono); color: var(--stage-soft); padding: 10px clamp(14px, 3vw, 22px); border-top: 1px solid var(--stage-rule); }
+
+/* ---------- Highlights ---------- */
+.highlights { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-top: 40px; }
+.hl { background: var(--sheet); padding: clamp(18px, 3vw, 26px); display: grid; gap: 8px; align-content: start; min-width: 0; transition: background .2s, opacity .25s; position: relative; }
+.hl:hover { background: var(--chip); }
+.hl h4 { font: 600 1.02rem/1.3 var(--f-body); }
+.hl p { margin: 0; font-size: .92rem; color: var(--ink-soft); }
+.hl .label { color: var(--mud); }
+.dim { opacity: .28; }
+.lit { box-shadow: inset 0 0 0 2px var(--mangrove); }
+
+/* ---------- Skills ---------- */
+.skills { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
+.skills > div { display: grid; gap: 10px; align-content: start; border-top: 2px solid var(--mangrove); padding-top: 14px; }
+.skills ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.skill { background: var(--sheet); border: 1px solid var(--rule); padding: 6px 10px; font-size: .88rem; }
+.skill:hover { border-color: var(--ink-soft); }
+.skill[aria-pressed="true"] { background: var(--mangrove); color: var(--sheet); border-color: var(--mangrove); }
+.skill-out { margin-top: 22px; min-height: 1.6em; font-size: .95rem; color: var(--ink-soft); }
+.skill-out b { color: var(--ink); }
+
+/* ---------- Work ---------- */
+.work { display: grid; border-top: 1px solid var(--ink); }
+.row { display: grid; grid-template-columns: 10rem 1fr 1.3fr 1.5rem; gap: 20px; padding: 22px 0; border-bottom: 1px solid var(--rule); align-items: baseline; transition: padding .25s, opacity .25s; }
+.row > * { min-width: 0; }
+.row h3 { font-size: 1.2rem; font-weight: 700; transition: font-variation-settings .3s; font-variation-settings: "wdth" 100; }
+.row:hover h3 { font-variation-settings: "wdth" 125; color: var(--mangrove); }
+.row:hover { padding-left: 10px; }
+.row p { margin: 0; color: var(--ink-soft); font-size: .95rem; }
+.row .arr { color: var(--ink-soft); }
+
+/* ---------- Contact ---------- */
+.contact { background: var(--mangrove); color: var(--sheet); position: relative; overflow: hidden; }
+.contact .wrap { position: relative; padding-block: clamp(52px, 8vw, 88px); display: grid; gap: 20px; }
+.contact h2 { font-size: clamp(2rem, 6vw, 3.6rem); font-weight: 800; font-variation-settings: "wdth" 115; line-height: 1; }
+.contact p { margin: 0; max-width: 42rem; }
+.contact .label { color: var(--sheet); opacity: .75; }
+.contact .btn { background: transparent; color: var(--sheet); border-color: var(--sheet); }
+.contact .btn:hover { box-shadow: 0 2px 0 var(--sheet); }
+.contact-list { display: grid; border-top: 1px solid rgba(255,255,255,.35); max-width: 44rem; }
+.ci { display: grid; grid-template-columns: 6rem 1fr auto; gap: 12px; align-items: center; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,.35); }
+.ci > * { min-width: 0; }
+.ci-val { font: 600 clamp(1rem, 2.6vw, 1.3rem)/1.3 var(--f-display); color: var(--sheet); overflow-wrap: anywhere; user-select: all; }
+a.ci-val { user-select: auto; }
+.copy { background: transparent; border: 1px solid var(--sheet); color: var(--sheet); padding: 6px 12px; font: 500 .78rem/1 var(--f-mono); }
+.copy:hover { background: var(--sheet); color: var(--mangrove); }
+@media (max-width: 480px) { .ci { grid-template-columns: 1fr auto; } .ci .label { grid-column: 1 / -1; } }
+footer { padding-block: 20px; font-size: .8rem; color: var(--ink-soft); }
+
+@media (max-width: 900px) {
+  .intro, .demo-body { grid-template-columns: 1fr; }
+  .viewport { border-right: 0; border-bottom: 1px solid var(--stage-rule); }
+  .steps { grid-template-columns: repeat(3, 1fr); }
+  .step:nth-child(3) { border-right: 0; }
+  .step:nth-child(-n+3) { border-bottom: 1px solid var(--stage-rule); }
+  .highlights { grid-template-columns: 1fr 1fr; }
+  .skills { grid-template-columns: 1fr 1fr; }
+  .row { grid-template-columns: 1fr; gap: 6px; }
+  .row .arr { display: none; }
+}
+@media (max-width: 540px) {
+  .highlights, .skills { grid-template-columns: 1fr; }
+  .meter-row { grid-template-columns: 6.5rem 1fr 3rem; }
+}
+/* ---------- Phone fixes ---------- */
+#overlay { touch-action: pan-y; }
+.viewport.paint #overlay { touch-action: none; }
+@media (hover: none) {
+  .hint { display: none; }
+  .hero { cursor: auto; }
+  .row:hover { padding-left: 0; }
+  .row:hover h3 { font-variation-settings: "wdth" 100; color: inherit; }
+  .portrait:hover img, .btn:hover { transform: none; }
+}
+@media (max-width: 600px) {
+  html { scroll-padding-top: 60px; }
+  .hero .wrap { padding-block: 32px 40px; gap: 18px; }
+  .hero h1 { font-size: clamp(2.1rem, 11.5vw, 3.2rem); font-variation-settings: "wdth" 88; letter-spacing: -.01em; }
+  .lede br { display: none; }
+  .lede { font-size: 1.02rem; }
+  .typed { white-space: normal; }
+  .links { width: 100%; }
+  .links .btn { flex: 1 1 auto; justify-content: center; }
+  section { padding-block: 44px; }
+  .intro { gap: 24px; }
+  .intro h3 { font-size: 2.3rem; font-variation-settings: "wdth" 100; }
+  .fact b { font-size: 1.7rem; }
+  .demo { margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); border-left: 0; border-right: 0; }
+  .demo-bar .label { width: 100%; }
+  .demo-bar .dbtn { flex: 1 1 0; }
+  .step { padding: 10px 8px; }
+  .step span { font-size: .82rem; }
+  .panel h4 { font-size: 1.2rem; }
+  .cover b { font-size: 2rem; }
+  .tools .dbtn { flex: 1 1 auto; }
+  .highlights { margin-top: 28px; }
+  .contact h2 { font-size: 2rem; }
+  .ci-val { font-size: 1rem; }
+  .nav .wrap { gap: 10px; }
+  .brand { font-size: .92rem; }
+}
+@media (max-width: 360px) {
+  .meter-row { grid-template-columns: 5.6rem 1fr 2.6rem; gap: 6px; font-size: .8rem; }
+  .steps { grid-template-columns: repeat(2, 1fr); }
+  .step:nth-child(n) { border-right: 1px solid var(--stage-rule); border-bottom: 1px solid var(--stage-rule); }
+  .step:nth-child(2n) { border-right: 0; }
+  .step:nth-child(n+5) { border-bottom: 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .btn { transition: transform .15s ease, box-shadow .15s ease; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .typed { border-right: 0; }
+}
+
+/* ================= Softer shapes ================= */
+:root {
+  --r-sm: 12px; --r-md: 18px; --r-lg: 26px; --pill: 999px;
+  --shadow: 0 1px 2px rgba(20,40,30,.05), 0 10px 30px -12px rgba(20,40,30,.18);
+  --shadow-up: 0 2px 4px rgba(20,40,30,.06), 0 18px 40px -14px rgba(20,40,30,.28);
+  --glow: rgba(29,106,78,.14);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -12px rgba(0,0,0,.6); --shadow-up: 0 2px 4px rgba(0,0,0,.3), 0 18px 40px -14px rgba(0,0,0,.7); --glow: rgba(92,196,148,.12); }
+}
+:root[data-theme="dark"] { --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -12px rgba(0,0,0,.6); --shadow-up: 0 2px 4px rgba(0,0,0,.3), 0 18px 40px -14px rgba(0,0,0,.7); --glow: rgba(92,196,148,.12); }
+
+:focus-visible { border-radius: var(--r-sm); }
+
+/* Nav */
+.nav { border-bottom-color: transparent; box-shadow: 0 1px 0 var(--rule); }
+.brand i { border-radius: 3px; }
+.theme-btn { border-radius: 50%; }
+
+/* Hero: soft glow instead of a hard bottom edge */
+.hero { border-bottom: 0; background: radial-gradient(55% 75% at 85% 30%, var(--glow), transparent 70%), radial-gradient(40% 60% at 10% 100%, var(--glow), transparent 70%); }
+.hero h1 { font-weight: 750; font-variation-settings: "wdth" 104; }
+.portrait img { border: 0; border-radius: 32px; box-shadow: 0 0 0 6px var(--sheet), var(--shadow-up); }
+.portrait:hover img { transform: translateY(-4px) rotate(-1deg); box-shadow: 0 0 0 6px var(--sheet), var(--shadow-up); }
+
+/* Buttons and chips */
+.btn { border-radius: var(--pill); border-color: var(--rule); padding: 11px 20px; box-shadow: var(--shadow); }
+.btn:hover { box-shadow: var(--shadow-up); }
+.btn.primary { border-color: transparent; }
+.chip { border-radius: var(--pill); padding: 6px 11px; }
+.dbtn, .copy { border-radius: var(--pill); }
+.copy { padding: 7px 14px; }
+.contact .btn:hover { box-shadow: var(--shadow-up); }
+
+/* Facts become one soft card */
+.facts { background: var(--sheet); border-top: 0; border-radius: var(--r-lg); padding: 8px 22px; box-shadow: var(--shadow); }
+.fact:nth-last-child(-n+2) { border-bottom: 0; }
+
+/* Demo */
+.demo { border: 0; border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-up); }
+.demo-bar { border-bottom: 0; }
+.steps { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 clamp(14px, 3vw, 22px) 14px; border-bottom: 0; }
+.steps .step { border: 0 !important; border-radius: var(--pill); padding: 9px 16px; flex: 1 1 auto; display: flex; align-items: center; justify-content: center; gap: 8px; background: rgba(255,255,255,.04); }
+.steps .step b { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.08); }
+.steps .step::after { display: none; }
+.steps .step.done b { background: rgba(71,191,224,.25); }
+.steps .step.active { background: var(--g2); color: #06202a; }
+.steps .step.active b { background: rgba(6,32,42,.18); }
+.demo-body { gap: 0; }
+.viewport { border-right: 0; border-bottom: 0; padding: 0 0 14px clamp(14px, 3vw, 22px); }
+.viewport canvas#scene { border-radius: var(--r-md); }
+#overlay { inset: 0 auto auto clamp(14px, 3vw, 22px); border-radius: var(--r-md); }
+.vp-tag { left: calc(clamp(14px, 3vw, 22px) + 10px); bottom: 24px; border-radius: var(--pill); padding: 5px 9px; }
+.meter { border-top: 0; background: rgba(255,255,255,.04); border-radius: var(--r-md); padding: 14px; }
+.bar, .bar i { border-radius: var(--pill); }
+.disclaimer { border-top: 0; padding-top: 0; }
+
+/* Highlights as separate soft cards */
+.highlights { background: none; border: 0; gap: 14px; }
+.hl { border-radius: var(--r-md); box-shadow: var(--shadow); transition: transform .2s ease, box-shadow .2s ease, background .2s, opacity .25s; }
+.hl:hover { background: var(--sheet); transform: translateY(-3px); box-shadow: var(--shadow-up); }
+.lit { box-shadow: 0 0 0 2px var(--mangrove), var(--shadow-up); }
+
+/* Skills */
+.skills { gap: 14px; }
+.skills > div { border-top: 0; background: var(--sheet); border-radius: var(--r-md); padding: 18px; box-shadow: var(--shadow); }
+.skills > div > .label { color: var(--mangrove); }
+.skill { border-radius: var(--pill); padding: 7px 13px; background: var(--chip); border-color: transparent; }
+.skill:hover { border-color: var(--rule); }
+
+/* Work list */
+.work { border-top: 0; gap: 6px; }
+.row { border-bottom: 0; border-radius: var(--r-md); padding: 18px 20px; transition: background .2s, padding .25s, opacity .25s, box-shadow .2s; }
+.row:hover { padding-left: 26px; background: var(--sheet); box-shadow: var(--shadow); }
+.row.lit { background: var(--sheet); }
+
+/* Contact */
+.contact { border-radius: 36px 36px 0 0; margin-top: 24px; padding-block: 0; }
+.contact-list { border-top: 0; gap: 8px; }
+.ci { border-bottom: 0; background: rgba(255,255,255,.1); border-radius: var(--r-md); padding: 12px 16px; }
+
+@media (max-width: 900px) {
+  .viewport { padding: 0 clamp(14px, 3vw, 22px) 14px; }
+}
+@media (max-width: 600px) {
+  .demo { margin-inline: 0; border-radius: var(--r-md); }
+  .steps .step { flex: 1 1 30%; padding: 8px 10px; }
+  .portrait img { border-radius: 24px; box-shadow: 0 0 0 4px var(--sheet), var(--shadow); }
+  .contact { border-radius: 26px 26px 0 0; }
+  .row { padding: 16px; }
+}
+@media (max-width: 600px) {
+  /* Typed word on its own line so the sentence doesn't jump while it types */
+  .typed { display: table; margin: 2px 0 4px; white-space: nowrap; }
+  /* Contact: label + copy on one line, value full width below */
+  .ci { grid-template-columns: 1fr auto; row-gap: 4px; }
+  .ci .label { grid-column: 1; grid-row: 1; }
+  .ci .copy { grid-column: 2; grid-row: 1; }
+  .ci .ci-val { grid-column: 1 / -1; grid-row: 2; font-size: 1.02rem; overflow-wrap: normal; }
+  .contact .wrap { padding-block: 44px 52px; }
+  /* Code lines break at spaces/arrows instead of mid-name */
+  .code { font-size: .7rem; overflow-wrap: anywhere; word-break: normal; }
+  /* Work rows line up with the headings */
+  .row, .row:hover { padding: 16px 0; background: none; box-shadow: none; }
+  .row.lit { padding: 16px; }
+  .hero .links .btn { flex: 1 1 100%; }
+}
+@media (max-width: 360px) {
+  .steps .step { flex: 1 1 40%; }
+  .ci .ci-val { font-size: .95rem; }
+}
+@media (hover: none) {
+  .row:hover { padding-left: 20px; background: none; box-shadow: none; }
+  .hl:hover { transform: none; }
+}
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top"><i></i>G. Montederamos</a>
+    <nav aria-label="Sections">
+      <a href="#capstone">Capstone</a>
+      <a href="#demo" class="keep">Demo</a>
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch light or dark theme">
+      <svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="hero" id="top">
+  <canvas id="topo" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <figure class="portrait">
+      <img src="profile.jpg" alt="Portrait of Gerald Montederamos" width="640" height="640">
+      <figcaption class="label">Developer · Southern Leyte</figcaption>
+    </figure>
+    <div class="readout">
+      <span class="label">Southern Leyte, PH</span>
+      <span class="label">Cursor <b id="lat">10.130° N</b> <b id="lon">125.000° E</b></span>
+    </div>
+    <h1 id="name">Gerald<span>Montederamos</span></h1>
+    <p class="lede">Full-stack developer. I build <span class="typed" id="typed">Laravel web apps</span><br>and turn drone flights over mangrove forests into mapped, reviewed conservation data.</p>
+    <div class="links">
+      <a class="btn primary" href="#demo">Run the pipeline demo</a>
+      <a class="btn" href="https://github.com/jing378" target="_blank" rel="noopener">GitHub · jing378</a>
+    </div>
+    <span class="hint">Move your cursor over the map lines.</span>
+  </div>
+</div>
+
+<main>
+  <section id="capstone">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="label">Featured project · Capstone · 2026</span>
+        <h2>Mapping mangroves from the ground and from the air</h2>
+      </div>
+
+      <div class="intro">
+        <div>
+          <h3>MangroveMap</h3>
+          <p>A web system for mapping and monitoring mangrove areas in Southern Leyte. Residents draw mangrove areas on a satellite map or upload drone orthomosaics. A U-Net model finds the mangrove extent, a YOLO model suggests the genus, and experts approve each area before it is published.</p>
+          <p>Experts record yearly observations and planting recommendations, so every area keeps a history that the map plays back as a "Changes over time" timeline.</p>
+          <div class="stack" aria-label="Technologies">
+            <span class="chip">Laravel 13</span><span class="chip">PHP 8.3</span><span class="chip">MySQL 8 spatial</span><span class="chip">Leaflet</span><span class="chip">Tailwind 4</span><span class="chip">GDAL</span><span class="chip">PyTorch U-Net</span><span class="chip">Ultralytics YOLO</span><span class="chip">Queues</span><span class="chip">PWA</span>
+          </div>
+          <a class="btn" href="https://github.com/jing378/MangroveMap" target="_blank" rel="noopener">Source on GitHub</a>
+        </div>
+        <div class="facts">
+          <div class="fact"><b data-count="3">3</b><span>user roles: resident, expert, admin</span></div>
+          <div class="fact"><b data-count="2">2</b><span>AI models: extent + genus</span></div>
+          <div class="fact"><b data-count="16">16</b><span>Eloquent models</span></div>
+          <div class="fact"><b data-count="42">42</b><span>database migrations</span></div>
+          <div class="fact"><b data-count="46">46</b><span>feature and unit test files</span></div>
+          <div class="fact"><b data-count="45">45</b><span>commits, May to Nov 2026</span></div>
+        </div>
+      </div>
+
+      <div class="demo" id="demo">
+        <div class="demo-bar">
+          <span class="label"><span class="dot"></span>Drone pipeline · interactive</span>
+          <button class="dbtn" id="newScene" type="button">New flight</button>
+          <button class="dbtn go" id="play" type="button">▶ Play pipeline</button>
+        </div>
+        <div class="steps" role="tablist" aria-label="Pipeline steps">
+          <button class="step" role="tab" data-s="0"><b>1</b><span>Upload</span></button>
+          <button class="step" role="tab" data-s="1"><b>2</b><span>Tile</span></button>
+          <button class="step" role="tab" data-s="2"><b>3</b><span>Detect</span></button>
+          <button class="step" role="tab" data-s="3"><b>4</b><span>Outline</span></button>
+          <button class="step" role="tab" data-s="4"><b>5</b><span>Genus</span></button>
+          <button class="step" role="tab" data-s="5"><b>6</b><span>Review</span></button>
+        </div>
+        <div class="demo-body">
+          <div class="viewport" id="vp">
+            <canvas id="scene" width="192" height="120" aria-label="Simulated drone image of a mangrove coastline"></canvas>
+            <canvas id="overlay" aria-hidden="true"></canvas>
+            <span class="vp-tag" id="vpTag">EPSG:3857 · z19</span>
+          </div>
+          <div class="panel">
+            <span class="label" id="pStep" style="color:var(--stage-soft)">Step 1 of 6</span>
+            <h4 id="pTitle">Chunked upload</h4>
+            <p id="pText"></p>
+            <span class="code" id="pCode"></span>
+            <div class="tools" id="tools" hidden>
+              <button class="dbtn" type="button" data-tool="add" aria-pressed="true">+ Add area</button>
+              <button class="dbtn" type="button" data-tool="erase" aria-pressed="false">− Erase</button>
+              <button class="dbtn" type="button" id="resetMask">Reset to AI</button>
+            </div>
+            <div class="meter">
+              <div class="cover"><b id="cover">—</b><span id="coverLbl">mangrove cover, waiting for detection</span></div>
+              <div class="meter-row"><em>Rhizophora</em><div class="bar"><i id="b0" style="background:var(--g1)"></i></div><span class="num" id="n0">—</span></div>
+              <div class="meter-row"><em>Avicennia</em><div class="bar"><i id="b1" style="background:var(--g2)"></i></div><span class="num" id="n1">—</span></div>
+              <div class="meter-row"><em>Sonneratia</em><div class="bar"><i id="b2" style="background:var(--g3)"></i></div><span class="num" id="n2">—</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="disclaimer">Simulated scene generated in your browser to show how the real pipeline works. Not survey data or real model output.</div>
+      </div>
+
+      <div class="highlights" id="highlights">
+        <div class="hl" data-skills="laravel js queues">
+          <span class="label">Large files</span>
+          <h4>Resumable GeoTIFF uploads</h4>
+          <p>Multi-gigabyte orthomosaics upload as parallel 8 MB chunks written straight to their offset. Pick the same files again and the upload resumes. Abandoned sessions are cleaned up daily.</p>
+        </div>
+        <div class="hl" data-skills="gdal queues laravel">
+          <span class="label">Geospatial</span>
+          <h4>GDAL on Windows and Linux</h4>
+          <p>A command runner wraps GDAL in the QGIS environment on Windows and calls it directly on Linux. Long jobs run on a dedicated queue with timeouts tuned so retries never overlap.</p>
+        </div>
+        <div class="hl" data-skills="python torch yolo laravel">
+          <span class="label">Applied ML</span>
+          <h4>Two models, one review screen</h4>
+          <p>PHP calls Python inference scripts that report JSON. Admins upload and validate new weights in the app. The genus suggestion recounts live as the owner edits areas, without rerunning the model.</p>
+        </div>
+        <div class="hl" data-skills="laravel mysql testing">
+          <span class="label">Workflow</span>
+          <h4>Review with a full history</h4>
+          <p>Submissions move through pending, approved and rejected states. Every revision is kept, residents get 7 days to fix a rejected area, and owners are notified by email and in the app.</p>
+        </div>
+        <div class="hl" data-skills="gdal python torch">
+          <span class="label">Dataset tooling</span>
+          <h4>Tile Explorer</h4>
+          <p>Cuts a GeoTIFF into georeferenced training tiles, labels each with its mangrove percentage, and streams the ZIP download without a temporary file.</p>
+        </div>
+        <div class="hl" data-skills="leaflet js tailwind pwa mysql">
+          <span class="label">Frontend</span>
+          <h4>Map UI that works in the field</h4>
+          <p>Leaflet with satellite imagery and OpenStreetMap place labels, a generated dark theme, swipe gestures on mobile, and installable as a PWA.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="label">Toolbox</span>
+        <h2>What I work with</h2>
+        <p>Pick a skill to see where I've used it.</p>
+      </div>
+      <div class="skills">
+        <div><span class="label">Backend</span><ul>
+          <li><button class="skill" type="button" data-k="laravel" aria-pressed="false">Laravel 13</button></li>
+          <li><button class="skill" type="button" data-k="mysql" aria-pressed="false">MySQL spatial</button></li>
+          <li><button class="skill" type="button" data-k="queues" aria-pressed="false">Queues</button></li>
+          <li><button class="skill" type="button" data-k="api" aria-pressed="false">REST APIs</button></li>
+          <li><button class="skill" type="button" data-k="testing" aria-pressed="false">PHPUnit</button></li>
+        </ul></div>
+        <div><span class="label">Frontend</span><ul>
+          <li><button class="skill" type="button" data-k="js" aria-pressed="false">JavaScript</button></li>
+          <li><button class="skill" type="button" data-k="leaflet" aria-pressed="false">Leaflet</button></li>
+          <li><button class="skill" type="button" data-k="tailwind" aria-pressed="false">Tailwind CSS</button></li>
+          <li><button class="skill" type="button" data-k="pwa" aria-pressed="false">PWAs</button></li>
+        </ul></div>
+        <div><span class="label">GIS and imagery</span><ul>
+          <li><button class="skill" type="button" data-k="gdal" aria-pressed="false">GDAL / QGIS</button></li>
+          <li><button class="skill" type="button" data-k="gdal" aria-pressed="false">GeoTIFF + XYZ tiles</button></li>
+          <li><button class="skill" type="button" data-k="mysql" aria-pressed="false">GeoJSON</button></li>
+        </ul></div>
+        <div><span class="label">Machine learning</span><ul>
+          <li><button class="skill" type="button" data-k="python" aria-pressed="false">Python</button></li>
+          <li><button class="skill" type="button" data-k="torch" aria-pressed="false">PyTorch U-Net</button></li>
+          <li><button class="skill" type="button" data-k="yolo" aria-pressed="false">YOLO</button></li>
+        </ul></div>
+      </div>
+      <p class="skill-out" id="skillOut" aria-live="polite">Nothing selected.</p>
+    </div>
+  </section>
+
+  <section id="work" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="label">Coursework · 2026</span>
+        <h2>Other Laravel projects</h2>
+      </div>
+      <div class="work">
+        <div class="row" data-skills="laravel api pwa">
+          <span class="label">Lab manuals 6–8</span>
+          <h3>Notes PWA</h3>
+          <p>Notes app with authentication, then extended with an admin role and privileges, role-based view rendering, and a basic REST API.</p>
+          <span class="arr">→</span>
+        </div>
+        <div class="row" data-skills="laravel mysql">
+          <span class="label">CRUD</span>
+          <h3>Workout tracker</h3>
+          <p>Users, workouts and workout sessions with full create, read, update and delete, using related Eloquent models.</p>
+          <span class="arr">→</span>
+        </div>
+        <div class="row" data-skills="laravel">
+          <span class="label">CRUD</span>
+          <h3>Todo app</h3>
+          <p>A task list built on Laravel's resource controllers and Blade templates.</p>
+          <span class="arr">→</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <span class="label">Contact</span>
+    <h2>Let's build something useful.</h2>
+    <p>I'm open to internships and junior developer roles in web development, GIS, or applied machine learning.</p>
+    <div class="contact-list">
+      <div class="ci">
+        <span class="label">Email</span>
+        <span class="ci-val" id="emailVal">geraldmontederamos05@gmail.com</span>
+        <button class="copy" type="button" data-copy="emailVal">Copy</button>
+      </div>
+      <div class="ci">
+        <span class="label">Mobile</span>
+        <span class="ci-val" id="phoneVal">+63 934 538 6961</span>
+        <button class="copy" type="button" data-copy="phoneVal">Copy</button>
+      </div>
+      <div class="ci">
+        <span class="label">GitHub</span>
+        <a class="ci-val" href="https://github.com/jing378" target="_blank" rel="noopener">github.com/jing378</a>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="wrap">© 2026 Gerald Montederamos</footer>
+
+<script>
+const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- Theme toggle ---------- */
+(function () {
+  const root = document.documentElement;
+  try { const t = localStorage.getItem('gm-theme'); if (t) root.dataset.theme = t; } catch (e) {}
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme = dark ? 'light' : 'dark';
+    try { localStorage.setItem('gm-theme', root.dataset.theme); } catch (e) {}
+  });
+})();
+
+/* ---------- Hero: reactive contours + coordinate readout ---------- */
+(function () {
+  const hero = document.querySelector('.hero');
+  const c = document.getElementById('topo'), ctx = c.getContext('2d');
+  const latEl = document.getElementById('lat'), lonEl = document.getElementById('lon');
+  let W = 0, H = 0, ptr = { x: -9999, y: -9999 }, cur = { x: -9999, y: -9999 }, raf = 0, t0 = performance.now();
+  function rng(s) { return function () { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; }; }
+  const rand = rng(7), phases = [0, 1].map(function () { return Array.from({ length: 5 }, function () { return rand() * 6.283; }); });
+  function size() {
+    const r = c.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2);
+    W = r.width; H = r.height; c.width = W * d; c.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0);
+  }
+  function draw(now) {
+    raf = 0;
+    cur.x += (ptr.x - cur.x) * 0.18; cur.y += (ptr.y - cur.y) * 0.18;
+    if (ptr.x < -999) { cur.x = ptr.x; cur.y = ptr.y; }
+    const t = RM ? 0 : (now - t0) / 1000;
+    ctx.clearRect(0, 0, W, H);
+    const rgb = getComputedStyle(document.documentElement).getPropertyValue('--contour').trim() || '29,106,78';
+    const isl = [
+      { x: W * 0.84, y: H * 0.34, s: Math.min(W, H) * 0.6, p: phases[0] },
+      { x: W * 0.62, y: H * 1.04, s: Math.min(W, H) * 0.45, p: phases[1] }
+    ];
+    isl.forEach(function (I) {
+      for (let k = 1; k <= 12; k++) {
+        const base = I.s * k / 12;
+        ctx.beginPath();
+        let near = 0;
+        for (let i = 0; i <= 180; i++) {
+          const a = i / 180 * 6.283;
+          const w = 1 + .14 * Math.sin(2 * a + I.p[0] + t * .05) + .08 * Math.sin(3 * a + I.p[1] + k * .15) + .05 * Math.sin(5 * a + I.p[2] - t * .08) + .03 * Math.sin(8 * a + I.p[3] - k * .2);
+          let px = I.x + Math.cos(a) * base * w * 1.15, py = I.y + Math.sin(a) * base * w * .8;
+          const dx = px - cur.x, dy = py - cur.y, d2 = dx * dx + dy * dy, f = Math.exp(-d2 / (2 * 90 * 90));
+          if (f > .3) near = 1;
+          const dd = Math.sqrt(d2) || 1; px += dx / dd * 34 * f; py += dy / dd * 34 * f;
+          i ? ctx.lineTo(px, py) : ctx.moveTo(px, py);
+        }
+        ctx.closePath();
+        ctx.strokeStyle = 'rgba(' + rgb + ',' + (near ? .55 : .2) + ')';
+        ctx.lineWidth = near ? 1.4 : 1;
+        ctx.stroke();
+      }
+    });
+    if (cur.x > -999) {
+      ctx.strokeStyle = 'rgba(' + rgb + ',.5)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(cur.x, cur.y, 6, 0, 6.283); ctx.stroke();
+    }
+    if (!RM && (Math.abs(ptr.x - cur.x) > .5 || true)) raf = requestAnimationFrame(draw);
+  }
+  function kick() { if (!raf) raf = requestAnimationFrame(draw); }
+  hero.addEventListener('pointermove', function (e) {
+    const r = c.getBoundingClientRect(); ptr.x = e.clientX - r.left; ptr.y = e.clientY - r.top;
+    const lat = 10.45 - (ptr.y / r.height) * 0.6, lon = 124.75 + (ptr.x / r.width) * 0.6;
+    latEl.textContent = lat.toFixed(3) + '° N'; lonEl.textContent = lon.toFixed(3) + '° E';
+    if (RM) draw(performance.now()); else kick();
+  });
+  hero.addEventListener('pointerleave', function () { ptr.x = ptr.y = -9999; if (RM) draw(performance.now()); });
+  // only animate while visible
+  new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) kick(); else { cancelAnimationFrame(raf); raf = 0; } }); }).observe(hero);
+  size(); draw(performance.now());
+  let rt; addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { size(); draw(performance.now()); }, 100); });
+  new MutationObserver(function () { draw(performance.now()); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  // Name letters stretch on hover
+  const h1 = document.getElementById('name');
+  h1.querySelectorAll('span').forEach(function () {});
+  function splitText(node) {
+    [].slice.call(node.childNodes).forEach(function (n) {
+      if (n.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        n.textContent.split('').forEach(function (ch) { const s = document.createElement('span'); s.className = 'ch'; s.textContent = ch; frag.appendChild(s); });
+        n.replaceWith(frag);
+      } else if (n.nodeType === 1) splitText(n);
+    });
+  }
+  splitText(h1);
+  h1.style.pointerEvents = 'auto';
+  if (matchMedia('(hover: hover)').matches) h1.querySelectorAll('.ch').forEach(function (s) {
+    s.addEventListener('pointerenter', function () { s.style.fontVariationSettings = '"wdth" 62'; s.style.transform = 'translateY(-6px)'; });
+    s.addEventListener('pointerleave', function () { s.style.fontVariationSettings = ''; s.style.transform = ''; });
+  });
+
+  // Typed phrases
+  const words = ['Laravel web apps', 'GIS pipelines', 'GDAL tile servers', 'U-Net + YOLO tools', 'Leaflet maps'];
+  const el = document.getElementById('typed');
+  if (!RM) {
+    let wi = 0, ci = words[0].length, del = true;
+    setTimeout(function tick() {
+      const w = words[wi];
+      if (del) { ci--; if (ci <= 0) { del = false; wi = (wi + 1) % words.length; } }
+      else { ci++; if (ci >= words[wi].length) { del = true; el.textContent = words[wi]; return setTimeout(tick, 1800); } }
+      el.textContent = words[wi].slice(0, Math.max(ci, 0)) || '​';
+      setTimeout(tick, del ? 35 : 70);
+    }, 2200);
+  }
+})();
+
+/* ---------- Drone pipeline demo ---------- */
+(function () {
+  const W = 192, H = 120, N = W * H;
+  const scene = document.getElementById('scene'), sctx = scene.getContext('2d');
+  const ov = document.getElementById('overlay'), octx = ov.getContext('2d');
+  const vp = document.getElementById('vp'), demo = document.getElementById('demo');
+  const GC = [[226, 189, 63], [71, 191, 224], [226, 102, 138]];
+  const STEPS = [
+    { t: 'Chunked upload', p: 'A drone orthomosaic arrives as 8 MB slices, four sent at a time. A dropped connection retries only one slice, and choosing the same files again resumes the upload.', c: 'DroneImageryUploadController · start → PUT chunks → complete', tag: 'incoming/{uuid} · .part' },
+    { t: 'Mosaic and tiles', p: 'A queued job runs GDAL to build the mosaic and cut XYZ map tiles. The deepest zoom level comes from the raster\'s native ground resolution, so no detail is thrown away or invented.', c: 'ProcessDroneImagery · GdalCommandRunner', tag: 'EPSG:3857 · z/x/y tiles' },
+    { t: 'Detect mangrove extent', p: 'The U-Net segmentation model runs tile by tile over a resampled copy and returns a mask of every mangrove pixel.', c: 'MangroveSegmentationService::​predictRaster → ml/predict.py --raster', tag: 'U-Net mask' },
+    { t: 'Outline the areas', p: 'The mask is traced into simplified GeoJSON polygons and offered to the owner as a draft delineation.', c: 'SegmentationFeatureBuilder', tag: 'GeoJSON · Polygon' },
+    { t: 'Suggest the genus', p: 'A YOLO model labels genera, but only pixels inside the U-Net mask are counted. The owner sees a probability for every genus; the app never picks one on its own.', c: 'ml/predict_genus.py → segmentation_stats.genus_suggestion', tag: 'genus map' },
+    { t: 'Your turn: review', p: 'Drag on the image to add or erase mangrove area. The cover and genus split recount as you edit, the way the real review editor recounts without rerunning the model. On confirm, an expert reviews it before it is published.', c: 'drone-imagery.segmentation.genus-preview · predict_genus.py --recount', tag: 'drag to edit' }
+  ];
+  let seed = 3, rgb, truth, aiMask, mask, genus, stage = 0, reveal = W, tool = 'add', playing = false, timers = [], brush = null, painting = false;
+
+  function hash(i, j, s) {
+    let h = Math.imul(i, 374761393) + Math.imul(j, 668265263) + Math.imul(s, 1442695041);
+    h = Math.imul(h ^ (h >>> 13), 1274126177); h ^= h >>> 16; return (h >>> 0) / 4294967295;
+  }
+  function vnoise(x, y, s) {
+    const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
+    const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
+    const a = hash(xi, yi, s), b = hash(xi + 1, yi, s), c = hash(xi, yi + 1, s), d = hash(xi + 1, yi + 1, s);
+    return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+  }
+  function fbm(x, y, s) { let f = 0, amp = .5, fr = 1; for (let o = 0; o < 4; o++) { f += amp * vnoise(x * fr, y * fr, s + o * 31); amp *= .5; fr *= 2; } return f / .9375; }
+
+  function generate() {
+    rgb = new Uint8ClampedArray(N * 3); truth = new Uint8Array(N); aiMask = new Uint8Array(N); genus = new Uint8Array(N);
+    const tilt = hash(seed, 1, 9) * 6.283, tx = Math.cos(tilt), ty = Math.sin(tilt);
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const i = y * W + x;
+      const grad = ((x - W / 2) * tx + (y - H / 2) * ty) / W * .55;
+      const e = fbm(x / 38, y / 38, seed) + grad;
+      const cn = fbm(x / 3.2, y / 3.2, seed + 100);
+      const g = fbm(x / 22, y / 22, seed + 200);
+      let r, gg, b;
+      if (e < .43) { const d = (.43 - e) * 2.2; r = 34 - d * 20 + cn * 10; gg = 78 - d * 25 + cn * 12; b = 92 - d * 10 + cn * 14; }
+      else if (e < .5) { r = 118 + cn * 30; gg = 98 + cn * 25; b = 72 + cn * 18; }
+      else {
+        truth[i] = 1; const c2 = cn * cn;
+        r = 22 + c2 * 55; gg = 62 + c2 * 95; b = 34 + c2 * 30;
+        if (cn < .32) { r *= .55; gg *= .55; b *= .55; }  // crown shadows
+      }
+      rgb[i * 3] = r; rgb[i * 3 + 1] = gg; rgb[i * 3 + 2] = b;
+      const err = (fbm(x / 6, y / 6, seed + 300) - .5) * .09;
+      aiMask[i] = e + err >= .5 ? 1 : 0;
+      genus[i] = g < .44 ? 0 : g < .58 ? 1 : 2;
+    }
+    mask = aiMask.slice();
+  }
+
+  function sizeOverlay() {
+    const r = scene.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2);
+    ov.width = Math.round(r.width * d); ov.height = Math.round(r.height * d);
+    ov.style.width = r.width + 'px'; ov.style.height = r.height + 'px';
+    octx.setTransform(d, 0, 0, d, 0, 0);
+  }
+
+  function render() {
+    const img = sctx.createImageData(W, H), px = img.data;
+    for (let i = 0; i < N; i++) {
+      const x = i % W;
+      let r = rgb[i * 3], g = rgb[i * 3 + 1], b = rgb[i * 3 + 2];
+      if (x >= reveal) { r = 10; g = 16; b = 14; }
+      else if (stage === 2 && mask[i]) { r = r * .45 + 92 * .55; g = g * .45 + 230 * .55; b = b * .45 + 160 * .55; }
+      else if (stage === 3) { const k = mask[i] ? .9 : .4; r *= k; g *= k; b *= k; }
+      else if (stage >= 4) {
+        if (mask[i]) { const c = GC[genus[i]]; r = r * .35 + c[0] * .65; g = g * .35 + c[1] * .65; b = b * .35 + c[2] * .65; }
+        else { r *= .5; g *= .5; b *= .5; }
+      }
+      px[i * 4] = r; px[i * 4 + 1] = g; px[i * 4 + 2] = b; px[i * 4 + 3] = 255;
+    }
+    sctx.putImageData(img, 0, 0);
+    drawOverlay();
+  }
+
+  function drawOverlay() {
+    const cw = ov.clientWidth, ch = ov.clientHeight, sx = cw / W, sy = ch / H;
+    octx.clearRect(0, 0, cw, ch);
+    if (reveal < W) {
+      const xx = reveal * sx;
+      octx.fillStyle = 'rgba(71,191,224,.9)'; octx.fillRect(xx - 1, 0, 2, ch);
+      octx.fillStyle = 'rgba(71,191,224,.15)'; octx.fillRect(xx - 24, 0, 24, ch);
+    }
+    if (stage === 1) {
+      const n = 4, m = Math.round(n * H / W) || 2;
+      octx.strokeStyle = 'rgba(255,255,255,.55)'; octx.lineWidth = 1; octx.setLineDash([4, 4]);
+      octx.font = '500 10px "JetBrains Mono", monospace'; octx.fillStyle = 'rgba(255,255,255,.85)';
+      for (let a = 0; a < n; a++) for (let b = 0; b < m + 1; b++) {
+        const x0 = a * cw / n, y0 = b * ch / (m + 0.5);
+        octx.strokeRect(x0 + .5, y0 + .5, cw / n, ch / (m + .5));
+        if (y0 < ch - 12) octx.fillText('19/' + (447410 + a) + '/' + (243020 + b), x0 + 5, y0 + 13);
+      }
+      octx.setLineDash([]);
+    }
+    if (stage >= 3) {
+      octx.beginPath();
+      for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+        const m = mask[y * W + x];
+        if (x < W - 1 && m !== mask[y * W + x + 1]) { octx.moveTo((x + 1) * sx, y * sy); octx.lineTo((x + 1) * sx, (y + 1) * sy); }
+        if (y < H - 1 && m !== mask[(y + 1) * W + x]) { octx.moveTo(x * sx, (y + 1) * sy); octx.lineTo((x + 1) * sx, (y + 1) * sy); }
+      }
+      octx.strokeStyle = stage === 3 ? 'rgba(120,255,196,.95)' : 'rgba(255,255,255,.8)';
+      octx.lineWidth = stage === 3 ? 1.6 : 1; octx.stroke();
+    }
+    if (stage === 5 && brush) {
+      octx.strokeStyle = tool === 'add' ? 'rgba(120,255,196,.95)' : 'rgba(255,120,140,.95)'; octx.lineWidth = 1.5;
+      octx.beginPath(); octx.arc(brush.x, brush.y, 5 * sx, 0, 6.283); octx.stroke();
+    }
+  }
+
+  function stats() {
+    const nEl = [0, 1, 2].map(function (k) { return document.getElementById('n' + k); });
+    const bEl = [0, 1, 2].map(function (k) { return document.getElementById('b' + k); });
+    const cover = document.getElementById('cover'), lbl = document.getElementById('coverLbl');
+    if (stage < 2) {
+      cover.textContent = '—'; lbl.textContent = 'mangrove cover, waiting for detection';
+      nEl.forEach(function (e) { e.textContent = '—'; }); bEl.forEach(function (e) { e.style.width = '0'; }); return;
+    }
+    let tot = 0; const c = [0, 0, 0];
+    for (let i = 0; i < N; i++) if (mask[i]) { tot++; c[genus[i]]++; }
+    cover.textContent = (tot / N * 100).toFixed(1) + '%';
+    lbl.textContent = 'mangrove cover · ' + tot.toLocaleString() + ' cells';
+    if (stage < 4) { nEl.forEach(function (e) { e.textContent = '—'; }); bEl.forEach(function (e) { e.style.width = '0'; }); return; }
+    c.forEach(function (v, k) { const p = tot ? v / tot * 100 : 0; nEl[k].textContent = p.toFixed(0) + '%'; bEl[k].style.width = p + '%'; });
+  }
+
+  function setStage(s, opts) {
+    stage = s;
+    document.querySelectorAll('.step').forEach(function (b, k) {
+      b.classList.toggle('active', k === s); b.classList.toggle('done', k < s);
+      b.setAttribute('aria-selected', k === s ? 'true' : 'false');
+    });
+    const st = STEPS[s];
+    document.getElementById('pStep').textContent = 'Step ' + (s + 1) + ' of 6';
+    document.getElementById('pTitle').textContent = st.t;
+    document.getElementById('pText').textContent = st.p;
+    document.getElementById('pCode').textContent = st.c;
+    document.getElementById('vpTag').textContent = st.tag;
+    document.getElementById('tools').hidden = s !== 5;
+    vp.classList.toggle('paint', s === 5);
+    if (s === 0 && opts && opts.sweep && !RM) sweep(); else { reveal = W; render(); }
+    stats();
+  }
+
+  function sweep() {
+    reveal = 0; const start = performance.now(), dur = 1500;
+    (function f(now) {
+      reveal = Math.min(W, Math.round((now - start) / dur * W)); render();
+      if (reveal < W && stage === 0) requestAnimationFrame(f); else { reveal = W; render(); }
+    })(start);
+  }
+
+  function stop() { playing = false; timers.forEach(clearTimeout); timers = []; demo.classList.remove('running'); document.getElementById('play').textContent = '▶ Play pipeline'; }
+  function play() {
+    stop(); playing = true; demo.classList.add('running'); document.getElementById('play').textContent = '■ Stop';
+    mask = aiMask.slice(); setStage(0, { sweep: true });
+    const gap = RM ? 1600 : 2600;
+    for (let s = 1; s <= 5; s++) timers.push(setTimeout(function () { setStage(s); if (s === 5) stop(); }, 600 + gap * s));
+  }
+
+  function paintAt(e) {
+    const r = ov.getBoundingClientRect();
+    brush = { x: e.clientX - r.left, y: e.clientY - r.top };
+    if (painting && stage === 5) {
+      const cx = brush.x / r.width * W, cy = brush.y / r.height * H, R = 5;
+      for (let y = Math.max(0, Math.floor(cy - R)); y <= Math.min(H - 1, cy + R); y++)
+        for (let x = Math.max(0, Math.floor(cx - R)); x <= Math.min(W - 1, cx + R); x++)
+          if ((x - cx) * (x - cx) + (y - cy) * (y - cy) <= R * R) mask[y * W + x] = tool === 'add' ? 1 : 0;
+      render(); stats();
+    } else drawOverlay();
+  }
+  ov.addEventListener('pointerdown', function (e) {
+    // On touch, only paint in the Review step so a swipe over the image still scrolls the page.
+    if (stage !== 5 && e.pointerType !== 'mouse') return;
+    if (stage !== 5) { stop(); setStage(5); }
+    painting = true; ov.setPointerCapture(e.pointerId); paintAt(e);
+  });
+  ov.addEventListener('pointermove', paintAt);
+  ov.addEventListener('pointerup', function () { painting = false; });
+  ov.addEventListener('pointerleave', function () { brush = null; painting = false; drawOverlay(); });
+  ov.addEventListener('pointercancel', function () { brush = null; painting = false; drawOverlay(); });
+
+  document.querySelectorAll('.step').forEach(function (b) { b.addEventListener('click', function () { stop(); setStage(+b.dataset.s, { sweep: true }); }); });
+  document.getElementById('play').addEventListener('click', function () { playing ? stop() : play(); });
+  document.getElementById('newScene').addEventListener('click', function () { seed = 1 + Math.floor(Math.random() * 9999); generate(); play(); });
+  document.querySelectorAll('[data-tool]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      tool = b.dataset.tool;
+      document.querySelectorAll('[data-tool]').forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+    });
+  });
+  document.getElementById('resetMask').addEventListener('click', function () { mask = aiMask.slice(); render(); stats(); });
+
+  generate(); sizeOverlay();
+  setStage(4);  // open on a finished-looking state so the page reads at rest
+  addEventListener('resize', function () { sizeOverlay(); drawOverlay(); });
+  if (window.ResizeObserver) new ResizeObserver(function () { sizeOverlay(); drawOverlay(); }).observe(scene);
+
+  // autoplay once when the demo scrolls into view
+  let played = false;
+  new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting && !played) { played = true; play(); } });
+  }, { threshold: .45 }).observe(demo);
+})();
+
+/* ---------- Copy buttons ---------- */
+document.querySelectorAll('.copy').forEach(function (b) {
+  b.addEventListener('click', function () {
+    const el = document.getElementById(b.dataset.copy), text = el.textContent.trim();
+    function selectIt() { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = 'Selected'; }
+    try {
+      navigator.clipboard.writeText(text).then(function () { b.textContent = 'Copied'; }, selectIt);
+    } catch (e) { selectIt(); }
+    setTimeout(function () { b.textContent = 'Copy'; }, 1800);
+  });
+});
+
+/* ---------- Skill explorer ---------- */
+(function () {
+  const USED = {
+    laravel: 'MangroveMap (whole app), Notes PWA, Workout tracker, Todo app',
+    mysql: 'MangroveMap: barangay lookup with MySQL spatial functions, GeoJSON delineations; Workout tracker relations',
+    queues: 'MangroveMap: dedicated drone-imagery queue for GDAL, segmentation and tiling jobs',
+    api: 'Notes PWA: basic REST API (lab manual 8)',
+    testing: 'MangroveMap: 46 feature and unit test files on in-memory SQLite',
+    js: 'MangroveMap: parallel chunked uploader, map editor, live genus preview',
+    leaflet: 'MangroveMap: satellite map, delineation drawing, "Changes over time" timeline',
+    tailwind: 'MangroveMap: UI with Tailwind 4 and a generated dark theme',
+    pwa: 'MangroveMap (installable app), Notes PWA',
+    gdal: 'MangroveMap: mosaics, XYZ tiles, reprojection; Tile Explorer dataset tiles',
+    python: 'MangroveMap: predict.py and predict_genus.py inference scripts',
+    torch: 'MangroveMap: U-Net mangrove extent segmentation',
+    yolo: 'MangroveMap: genus suggestion from a YOLO segmentation model'
+  };
+  const out = document.getElementById('skillOut');
+  const targets = document.querySelectorAll('[data-skills]');
+  let active = null;
+  document.querySelectorAll('.skill').forEach(function (b) {
+    b.addEventListener('click', function () {
+      const same = active === b; active = same ? null : b;
+      document.querySelectorAll('.skill').forEach(function (o) { o.setAttribute('aria-pressed', o === active ? 'true' : 'false'); });
+      targets.forEach(function (t) { t.classList.remove('dim', 'lit'); });
+      if (!active) { out.textContent = 'Nothing selected.'; return; }
+      const k = active.dataset.k;
+      out.innerHTML = '<b>' + active.textContent + '</b> · used in ' + USED[k] + '.';
+      targets.forEach(function (t) {
+        const on = t.dataset.skills.split(' ').indexOf(k) > -1;
+        t.classList.toggle('lit', on); t.classList.toggle('dim', !on);
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
