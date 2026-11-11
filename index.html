@@ -356,6 +356,13 @@ footer { padding-block: 20px; font-size: .8rem; color: var(--ink-soft); }
 .skills > div > .label { color: var(--mangrove); }
 .skill { border-radius: var(--pill); padding: 7px 13px; background: var(--chip); border-color: transparent; }
 .skill:hover { border-color: var(--rule); }
+.skill { display: inline-flex; align-items: center; gap: 10px; padding: 6px 16px 6px 6px; font-size: .92rem; }
+.skill .tile { width: 32px; height: 32px; flex: none; display: grid; place-items: center; background: #fff; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,.15); transition: transform .2s ease; }
+.skill:hover .tile { transform: rotate(-8deg) scale(1.08); }
+.skill .ic { width: 20px; height: 20px; display: block; }
+.skill img.ic { object-fit: contain; }
+.skill .ic.m { background: var(--c, #1e2a24); -webkit-mask: var(--i) center / contain no-repeat; mask: var(--i) center / contain no-repeat; }
+.skill svg.ic { fill: none; stroke: #1e2a24; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
 /* Work list */
 .work { border-top: 0; gap: 6px; }
@@ -564,27 +571,27 @@ footer { padding-block: 20px; font-size: .8rem; color: var(--ink-soft); }
       </div>
       <div class="skills">
         <div><span class="label">Backend</span><ul>
-          <li><button class="skill" type="button" data-k="laravel" aria-pressed="false">Laravel 13</button></li>
-          <li><button class="skill" type="button" data-k="mysql" aria-pressed="false">MySQL spatial</button></li>
-          <li><button class="skill" type="button" data-k="queues" aria-pressed="false">Queues</button></li>
-          <li><button class="skill" type="button" data-k="api" aria-pressed="false">REST APIs</button></li>
-          <li><button class="skill" type="button" data-k="testing" aria-pressed="false">PHPUnit</button></li>
+          <li><button class="skill" type="button" data-k="laravel" aria-pressed="false"><img class="ic" src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/laravel/laravel-original.svg" alt="" width="18" height="18"><span>Laravel 13</span></button></li>
+          <li><button class="skill" type="button" data-k="mysql" aria-pressed="false"><img class="ic" src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/mysql/mysql-original.svg" alt="" width="18" height="18"><span>MySQL spatial</span></button></li>
+          <li><button class="skill" type="button" data-k="queues" aria-pressed="false"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="4" rx="1.5"/><rect x="3" y="10" width="18" height="4" rx="1.5"/><rect x="3" y="16" width="18" height="4" rx="1.5"/></svg><span>Queues</span></button></li>
+          <li><button class="skill" type="button" data-k="api" aria-pressed="false"><img class="ic" src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/openapi/openapi-original.svg" alt="" width="18" height="18"><span>REST APIs</span></button></li>
+          <li><button class="skill" type="button" data-k="testing" aria-pressed="false"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.5 12.5l3 3 6-7"/></svg><span>PHPUnit</span></button></li>
         </ul></div>
         <div><span class="label">Frontend</span><ul>
-          <li><button class="skill" type="button" data-k="js" aria-pressed="false">JavaScript</button></li>
-          <li><button class="skill" type="button" data-k="leaflet" aria-pressed="false">Leaflet</button></li>
-          <li><button class="skill" type="button" data-k="tailwind" aria-pressed="false">Tailwind CSS</button></li>
-          <li><button class="skill" type="button" data-k="pwa" aria-pressed="false">PWAs</button></li>
+          <li><button class="skill" type="button" data-k="js" aria-pressed="false"><img class="ic" src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/javascript/javascript-original.svg" alt="" width="18" height="18"><span>JavaScript</span></button></li>
+          <li><button class="skill" type="button" data-k="leaflet" aria-pressed="false"><span class="ic m" style="--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/leaflet.svg);--c:#3a9d3a"></span><span>Leaflet</span></button></li>
+          <li><button class="skill" type="button" data-k="tailwind" aria-pressed="false"><img class="ic" src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/tailwindcss/tailwindcss-original.svg" alt="" width="18" height="18"><span>Tailwind CSS</span></button></li>
+          <li><button class="skill" type="button" data-k="pwa" aria-pressed="false"><span class="ic m" style="--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/pwa.svg);--c:#7a4fe0"></span><span>PWAs</span></button></li>
         </ul></div>
         <div><span class="label">GIS and imagery</span><ul>
-          <li><button class="skill" type="button" data-k="gdal" aria-pressed="false">GDAL / QGIS</button></li>
-          <li><button class="skill" type="button" data-k="gdal" aria-pressed="false">GeoTIFF + XYZ tiles</button></li>
-          <li><button class="skill" type="button" data-k="mysql" aria-pressed="false">GeoJSON</button></li>
+          <li><button class="skill" type="button" data-k="gdal" aria-pressed="false"><span class="ic m" style="--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/qgis.svg);--c:#6aa842"></span><span>GDAL / QGIS</span></button></li>
+          <li><button class="skill" type="button" data-k="gdal" aria-pressed="false"><span class="ic m" style="--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/gdal.svg);--c:#4f9fc4"></span><span>GeoTIFF + XYZ tiles</span></button></li>
+          <li><button class="skill" type="button" data-k="mysql" aria-pressed="false"><span class="ic m" style="--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/json.svg)"></span><span>GeoJSON</span></button></li>
         </ul></div>
         <div><span class="label">Machine learning</span><ul>
-          <li><button class="skill" type="button" data-k="python" aria-pressed="false">Python</button></li>
-          <li><button class="skill" type="button" data-k="torch" aria-pressed="false">PyTorch U-Net</button></li>
-          <li><button class="skill" type="button" data-k="yolo" aria-pressed="false">YOLO</button></li>
+          <li><button class="skill" type="button" data-k="python" aria-pressed="false"><img class="ic" src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/python/python-original.svg" alt="" width="18" height="18"><span>Python</span></button></li>
+          <li><button class="skill" type="button" data-k="torch" aria-pressed="false"><img class="ic" src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/pytorch/pytorch-original.svg" alt="" width="18" height="18"><span>PyTorch U-Net</span></button></li>
+          <li><button class="skill" type="button" data-k="yolo" aria-pressed="false"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4"/><rect x="8" y="8" width="8" height="8" rx="1.5"/></svg><span>YOLO</span></button></li>
         </ul></div>
       </div>
       <p class="skill-out" id="skillOut" aria-live="polite">Nothing selected.</p>
@@ -995,6 +1002,10 @@ document.querySelectorAll('.copy').forEach(function (b) {
     torch: 'MangroveMap: U-Net mangrove extent segmentation',
     yolo: 'MangroveMap: genus suggestion from a YOLO segmentation model'
   };
+  document.querySelectorAll('.skill .ic').forEach(function (ic) {
+    const t = document.createElement('span'); t.className = 'tile'; t.setAttribute('aria-hidden', 'true');
+    ic.replaceWith(t); t.appendChild(ic);
+  });
   const out = document.getElementById('skillOut');
   const targets = document.querySelectorAll('[data-skills]');
   let active = null;
