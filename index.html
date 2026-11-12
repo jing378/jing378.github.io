@@ -151,7 +151,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 :root[data-theme="light"] .theme-btn .moon { display: block; }
 :root[data-theme="light"] .theme-btn .sun { display: none; }
-@media (max-width: 720px) { .nav nav a:not(.keep) { display: none; } }
+@media (max-width: 720px) {
+  /* Phones: name + theme button on top, all four sections as a full-width row below. */
+  .nav .wrap { flex-wrap: wrap; height: auto; row-gap: 6px; padding-top: 10px; padding-bottom: 8px; }
+  .nav nav { order: 3; width: 100%; gap: 4px; }
+  .nav nav a { flex: 1 1 0; text-align: center; padding: 7px 4px; }
+}
 
 /* ---------- Hero ---------- */
 .hero {
@@ -427,7 +432,7 @@ footer { padding-block: 22px 28px; font-size: .8rem; color: var(--ink-soft); dis
   .portrait:hover img, .btn:hover, .hl:hover { transform: none; }
 }
 @media (max-width: 600px) {
-  html { scroll-padding-top: 60px; }
+  html { scroll-padding-top: 112px; }
   .hero { min-height: 0; }
   .hero .wrap { padding-block: 32px 40px; gap: 18px; }
   .path { display: none; }
@@ -473,10 +478,6 @@ footer { padding-block: 22px 28px; font-size: .8rem; color: var(--ink-soft); dis
   .portrait figcaption { display: none; }
   .hero .wrap .links { grid-column: 1 / -1; }
 }
-@media (max-width: 380px) {
-  .nav nav a { padding: 6px 8px; }
-  .nav nav a[href="#demo"] { display: none; }
-}
 @media (max-width: 360px) {
   .meter-row { grid-template-columns: 5.6rem 1fr 2.6rem; gap: 6px; font-size: .8rem; }
   .steps .step { flex: 1 1 40%; }
@@ -503,9 +504,9 @@ footer { padding-block: 22px 28px; font-size: .8rem; color: var(--ink-soft); dis
     <a class="brand" href="#top"><i></i>G. Montederamos</a>
     <nav aria-label="Sections">
       <a href="#capstone">Work</a>
-      <a href="#demo" class="keep">Demo</a>
+      <a href="#demo">Demo</a>
       <a href="#skills">Skills</a>
-      <a href="#contact" class="keep">Contact</a>
+      <a href="#contact">Contact</a>
     </nav>
     <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch light or dark theme">
       <svg class="moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
