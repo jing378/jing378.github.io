@@ -229,6 +229,11 @@ button { font: inherit; color: inherit; cursor: pointer; }
   transition: transform .35s ease, box-shadow .35s ease;
 }
 .portrait:hover img { transform: translateY(-6px) rotate(-1.2deg); }
+/* Dark mode: the portrait crossfades to the asleep photo. */
+.ph { position: relative; display: block; }
+.ph .night { position: absolute; top: 0; left: 0; opacity: 0; transition: transform .35s ease, box-shadow .35s ease, opacity .6s ease; }
+:root[data-theme="dark"] .ph .night { opacity: 1; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .ph .night { opacity: 1; } }
 .avail {
   display: inline-flex; align-items: center; gap: 8px;
   width: max-content; max-width: 100%;
@@ -568,7 +573,10 @@ footer { padding-block: 22px 28px; font-size: .8rem; color: var(--ink-soft); dis
   <canvas id="topo" aria-hidden="true"></canvas>
   <div class="wrap">
     <figure class="portrait">
-      <img src="profile.jpg" alt="Portrait of Gerald Montederamos" width="640" height="640">
+      <span class="ph">
+        <img src="profile.jpg" alt="Portrait of Gerald Montederamos" width="640" height="640">
+        <img class="night" src="profile-night.jpg" alt="" aria-hidden="true" width="640" height="640">
+      </span>
       <figcaption class="label">Developer · Southern Leyte</figcaption>
     </figure>
     <div class="readout">
