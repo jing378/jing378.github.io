@@ -771,6 +771,11 @@ footer { padding-block: 22px 28px; font-size: .8rem; color: var(--ink-soft); dis
         <p>Smaller apps that taught the same habits: models, roles, and a clean request cycle.</p>
       </div>
       <div class="work reveal stagger">
+        <div class="row" data-skills="laravel mysql js">
+          <span class="label">Booking system</span>
+          <h3>Bus Reservation System</h3>
+          <p>A legacy PHP bus ticketing system rebuilt on Laravel 13. Admins manage buses, routes, trips and users; passengers search trips, pick seats on a bus layout and book. Includes transactions, activity logs, live weather on the dashboard, and an import command that moves the old database over.</p>
+        </div>
         <div class="row" data-skills="laravel api pwa">
           <span class="label">Lab manuals 6–8</span>
           <h3>Notes PWA</h3>
@@ -1230,12 +1235,12 @@ document.querySelectorAll('.copy').forEach(function (b) {
 /* ---------- Skill explorer ---------- */
 (function () {
   const USED = {
-    laravel: 'MangroveMap (whole app), Notes PWA, Workout tracker, Todo app',
-    mysql: 'MangroveMap: barangay lookup with MySQL spatial functions, GeoJSON delineations; Workout tracker relations',
+    laravel: 'MangroveMap (whole app), Bus Reservation System (rebuilt from legacy PHP), Notes PWA, Workout tracker, Todo app',
+    mysql: 'MangroveMap: barangay lookup with MySQL spatial functions, GeoJSON delineations; Bus Reservation: buses, routes, trips, seats and bookings; Workout tracker relations',
     queues: 'MangroveMap: dedicated drone-imagery queue for GDAL, segmentation and tiling jobs',
     api: 'Notes PWA: basic REST API (lab manual 8)',
     testing: 'MangroveMap: 46 feature and unit test files on in-memory SQLite',
-    js: 'MangroveMap: parallel chunked uploader, map editor, live genus preview',
+    js: 'MangroveMap: parallel chunked uploader, map editor, live genus preview; Bus Reservation: seat picker and live weather',
     leaflet: 'MangroveMap: satellite map, delineation drawing, "Changes over time" timeline',
     tailwind: 'MangroveMap: UI with Tailwind 4 and a generated dark theme',
     pwa: 'MangroveMap (installable app), Notes PWA',
