@@ -428,7 +428,9 @@ footer { padding-block: 22px 28px; font-size: .8rem; color: var(--ink-soft); dis
 }
 @media (max-width: 600px) {
   html { scroll-padding-top: 60px; }
+  .hero { min-height: 0; }
   .hero .wrap { padding-block: 32px 40px; gap: 18px; }
+  .path { display: none; }
   .hero h1 { font-size: clamp(2.1rem, 11.5vw, 3.2rem); font-variation-settings: "wdth" 88; letter-spacing: -.01em; }
   .lede br { display: none; }
   .lede { font-size: 1.02rem; }
@@ -470,6 +472,10 @@ footer { padding-block: 22px 28px; font-size: .8rem; color: var(--ink-soft); dis
   .portrait img { width: 92px; border-radius: 22px; box-shadow: 0 0 0 4px var(--sheet), var(--shadow); }
   .portrait figcaption { display: none; }
   .hero .wrap .links { grid-column: 1 / -1; }
+}
+@media (max-width: 380px) {
+  .nav nav a { padding: 6px 8px; }
+  .nav nav a[href="#demo"] { display: none; }
 }
 @media (max-width: 360px) {
   .meter-row { grid-template-columns: 5.6rem 1fr 2.6rem; gap: 6px; font-size: .8rem; }
